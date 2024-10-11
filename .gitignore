@@ -1,4 +1,4 @@
-src/Server/Data
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
@@ -26,4 +26,9 @@ bin/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Store!/src/Server/Data
+!/src/Server/Data
+!/src/Bureau/Data
+!/src/Factory/Data
+!/src/Bureau/Logs
+!/src/Factory/Logs
