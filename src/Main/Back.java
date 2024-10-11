@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class Back implements Settings, TypesMessage {
+public abstract class Back implements Config, TypesMessage {
     public static Gson gson = new Gson();
     private Socket socket;
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -22,10 +22,11 @@ public abstract class Back implements Settings, TypesMessage {
     static int idMsg;
     static FileWriter logsWriter;
     protected void start(){
+        addLog("Новый запуск");
         if (REFRESH_DATA){
             dataJson = new JsonObject();
             dataJson.add("msg",new JsonArray());
-            dataJson.add("projects",new JsonArray());
+            dataJson.add("projects",new JsonObject());
         }
         else {
             try {
@@ -50,7 +51,7 @@ public abstract class Back implements Settings, TypesMessage {
     public boolean run(Runnable runnable){
         try {
             socket = new Socket();
-            socket.connect(new InetSocketAddress(Settings.IP_SERVER, Settings.PORT_SERVER), 5000);
+            socket.connect(new InetSocketAddress(Config.IP_SERVER, Config.PORT_SERVER), 5000);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = socket.getOutputStream();
             runnable.run();

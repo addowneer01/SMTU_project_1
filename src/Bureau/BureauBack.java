@@ -12,6 +12,7 @@ public class BureauBack extends Back {
     private BureauBack(){
         try {
             logsWriter = new FileWriter("src/Bureau/Logs",true);
+            start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

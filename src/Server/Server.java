@@ -1,13 +1,13 @@
 package Server;
 
-import Main.Settings;
+import Main.Config;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server implements Settings{
+public class Server implements Config {
     static int countIdMsg;
     static FileWriter fileWriter;
 
@@ -18,7 +18,7 @@ public class Server implements Settings{
             countIdMsg = scan.nextInt();
         }
         fileWriter = new FileWriter("src/Server/Data");
-        ServerSocket serverSocket = new ServerSocket(Settings.PORT_SERVER);
+        ServerSocket serverSocket = new ServerSocket(Config.PORT_SERVER);
         while (true) {
             try{
                 Socket socket = serverSocket.accept();

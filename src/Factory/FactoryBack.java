@@ -12,6 +12,7 @@ public class FactoryBack extends Back{
     private FactoryBack(){
         try {
             logsWriter = new FileWriter("src/Factory/Logs",true);
+            start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -42,7 +43,9 @@ public class FactoryBack extends Back{
         switch (object.get("type").getAsInt()){
             case TYPE_ANSWER -> {}
             case TYPE_RELEASE -> {}
-
+            case TYPE_CORRECTION -> {}
+            case TYPE_NEW_PROJECT -> dataJson.getAsJsonObject("projects").add(object.get("name").getAsString(),new JsonObject());
+            default -> addLog("handler -> неккоректный тип");
         }
     }
 }

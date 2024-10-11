@@ -1,6 +1,6 @@
 package Main;
 
-public interface Settings {
+public interface Config {
     boolean REFRESH_DATA = false;
     boolean ENCRYPT = false;
     String KEY = "";

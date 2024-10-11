@@ -1,6 +1,16 @@
+data{
+    msg{},
+    projects{
+        p1[ d1{},d2{} ],
+        p2[]
+    }
+}
+
+
 //        FactoryBack.getInstance().start("localhost",2709,null);
 //        FactoryBack.getInstance().connect();
 //        FactoryBack.getInstance().send("123");
+
 // Чтение содержимого текстового файла в строку
             String fileContent = new String(Files.readAllBytes(Paths.get(inputFilePath)));
 
