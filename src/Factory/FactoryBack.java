@@ -39,6 +39,10 @@ public class FactoryBack extends Back{
 
     @Override
     public void handler(JsonObject object) {
+        switch (object.get("type").getAsInt()){
+            case TYPE_ANSWER -> {}
+            case TYPE_RELEASE -> {}
 
+        }
     }
 }

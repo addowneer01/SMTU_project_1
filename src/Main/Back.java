@@ -1,5 +1,6 @@
 package Main;
 
+import Ms.TypesMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class Back implements Settings {
+public abstract class Back implements Settings, TypesMessage {
     public static Gson gson = new Gson();
     private Socket socket;
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
