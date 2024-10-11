@@ -15,7 +15,11 @@ public class Server implements Config {
         if (REFRESH_DATA) countIdMsg = 0;
         else {
             Scanner scan = new Scanner(new File("src/Server/Data"));
-            countIdMsg = scan.nextInt();
+            try {
+                countIdMsg = scan.nextInt();
+            }catch (Exception e){
+                countIdMsg = 0;
+            }
         }
         fileWriter = new FileWriter("src/Server/Data");
         ServerSocket serverSocket = new ServerSocket(Config.PORT_SERVER);

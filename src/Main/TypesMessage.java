@@ -1,4 +1,4 @@
-package Ms;
+package Main;
 
 public interface TypesMessage {
     int TYPE_CONFIRM=0;

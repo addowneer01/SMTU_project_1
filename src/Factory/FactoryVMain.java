@@ -1,12 +1,13 @@
 package Factory;
 
-import Ms.*;
+import Main.TypesMessage;
 import com.google.gson.JsonObject;
 
 import java.util.Scanner;
 
 public class FactoryVMain implements TypesMessage {
     public static void main(String[] args) {
+        FactoryBack.getInstance();
         Scanner scan = new Scanner(System.in);
         System.out.println("Введите имя пользователя");
         String namePersonal = scan.nextLine();
@@ -14,7 +15,12 @@ public class FactoryVMain implements TypesMessage {
         while (q){
             String[] command = scan.nextLine().split(" ");
             switch (command[0]){
-                //case "/debug" -> System.out.println(FactoryBack.getInstance().getIdMsg());
+                case "/debug" -> {
+                    JsonObject d = new JsonObject();
+                    d.addProperty("type",command[1]);
+                    d.addProperty("name",command[2]);
+                    FactoryBack.getInstance().handler(d);
+                }
                 case "/help" -> {
                     System.out.println("/help");
                     System.out.println("/auth {name}");
@@ -32,7 +38,10 @@ public class FactoryVMain implements TypesMessage {
                     System.out.println("/startWork {namePersonal} {project} {id}");
                 }
                 case "/auth" -> namePersonal=scan.nextLine();
-                case "/exit" -> q = false;
+                case "/exit" -> {
+                    q = false;
+                    FactoryBack.getInstance().stop();
+                }
                 case "/ping" -> {
                     if (FactoryBack.getInstance().connectPing()) System.out.println("Сервер работает");
                     else System.out.println("Сервер недоступен");

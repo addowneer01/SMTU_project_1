@@ -1,8 +1,13 @@
 data{
     msg{},
     projects{
-        p1[ d1{},d2{} ],
-        p2[]
+        p1{
+            d1{
+                reports[r1{close,idReport,idAnswer}]
+            },
+            d2{}
+        },
+        p2{}
     }
 }
 

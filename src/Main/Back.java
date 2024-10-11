@@ -1,6 +1,5 @@
 package Main;
 
-import Ms.TypesMessage;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -38,7 +37,7 @@ public abstract class Back implements Config, TypesMessage {
             }
         }
     }
-    protected void stop(){
+    public void stop(){
         try {
             FileWriter fileWriter = new FileWriter(getDataPath());
             fileWriter.write(gson.toJson(dataJson));
@@ -109,6 +108,12 @@ public abstract class Back implements Config, TypesMessage {
             }
         });
         return idMsg;
+    }
+    public JsonObject getProject(String name){
+        return dataJson.getAsJsonObject("projects").getAsJsonObject(name);
+    }
+    public JsonObject getDocument(String nameProject, String id){
+        return getProject(nameProject).getAsJsonObject(id);
     }
     public abstract void addLog(String text);
     public abstract String getDataPath();
