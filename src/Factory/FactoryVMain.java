@@ -3,7 +3,6 @@ package Factory;
 import Ms.*;
 import com.google.gson.JsonObject;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class FactoryVMain implements TypesMessage {

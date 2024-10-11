@@ -1,0 +1,32 @@
+data{
+    msg{},
+    projects{
+        p1[ d1{},d2{} ],
+        p2[]
+    }
+}
+
+
+//        FactoryBack.getInstance().start("localhost",2709,null);
+//        FactoryBack.getInstance().connect();
+//        FactoryBack.getInstance().send("123");
+
+// Чтение содержимого текстового файла в строку
+            String fileContent = new String(Files.readAllBytes(Paths.get(inputFilePath)));
+
+            // Создание JSON-объекта и добавление содержимого файла
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("fileContent", fileContent);
+
+            // Сохранение JSON-объекта в строку
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(jsonObject);
+            System.out.println("JSON representation of file:\n" + jsonString);
+
+            // Преобразование JSON-объекта обратно в содержимое файла
+            JsonObject restoredObject = gson.fromJson(jsonString, JsonObject.class);
+            String restoredContent = restoredObject.get("fileContent").getAsString();
+
+            // Запись восстановленного содержимого обратно в файл
+            Files.write(Paths.get(outputFilePath), restoredContent.getBytes());
+            System.out.println("File restored from JSON object to: " + outputFilePath);
