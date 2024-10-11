@@ -6,14 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="faeec91b-460b-4290-bc1c-39d571e4fa13" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bd/Document.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bd/Project.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Factory/FactoryBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FactoryBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Factory/FactoryVMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FactoryVMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Back.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Back.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scrap.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/scrap.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +36,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/olmp/IdeaProjects/SMTU_project1/src/scrap&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/olmp/IdeaProjects/SMTU_project1/src/scrap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/olmp/IdeaProjects/SMTU_project1/src/scrap",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "two.files.diff.last.used.file": "C:/Users/olmp/IdeaProjects/SMTU_project1/src/scrap"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.Factory">
     <configuration name="Factory" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Factory.FactoryVMain" />
@@ -138,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728631195490</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update">
+      <option name="closed" value="true" />
+      <created>1728637001518</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1728637001518</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
