@@ -6,4 +6,5 @@ public interface TypesMessage {
     int TYPE_START_WORK=2;
     int TYPE_ANSWER =3;
     int TYPE_RELEASE =4;
+    int TYPE_CORRECTION =5;
 }

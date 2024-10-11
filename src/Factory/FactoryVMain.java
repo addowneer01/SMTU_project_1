@@ -22,6 +22,9 @@ public class FactoryVMain implements TypesMessage {
                     System.out.println("/exit");
                     System.out.println("/ping");
                     System.out.println("/sendMs {namePersonal} {type} {project} {idDocument} {parametr1} {parametr2} " );
+                    System.out.println("    confirm -> {answer} {comment}");
+                    System.out.println("    report  -> {id} {comment}");
+                    System.out.println("    start   -> {comment}");
                     System.out.println("/getMsHistory" );
                     System.out.println("/getMs {id}" );
                     System.out.println("/getProject" );
@@ -40,9 +43,20 @@ public class FactoryVMain implements TypesMessage {
                     JsonObject out = new JsonObject();
                     out.addProperty("namePersonal",namePersonal);
                     switch (command[2]){
-                        case "confirm" -> out.addProperty("type",TYPE_CONFIRM);
-                        case "report" -> out.addProperty("type",TYPE_REPORT);
-                        case "start" -> out.addProperty("type",TYPE_START_WORK);
+                        case "confirm" -> {
+                            out.addProperty("type",TYPE_CONFIRM);
+                            out.addProperty("p1",command[5]);
+                            out.addProperty("p2",command[6]);
+                        }
+                        case "report" -> {
+                            out.addProperty("type",TYPE_REPORT);
+                            out.addProperty("p1",command[5]);
+                            out.addProperty("p2",command[6]);
+                        }
+                        case "start" -> {
+                            out.addProperty("type",TYPE_START_WORK);
+                            out.addProperty("p1",command[5]);
+                        }
                         default -> {
                             System.out.println("Неккоректный тип (confirm, report, start)");
                             exception = true;
@@ -56,8 +70,6 @@ public class FactoryVMain implements TypesMessage {
                     out.addProperty("id",FactoryBack.getInstance().getIdMsg());
                     out.addProperty("project",command[3]);
                     out.addProperty("document",command[4]);
-                    out.addProperty("p1",command[5]);
-                    out.addProperty("p2",command[6]);
                     FactoryBack.getInstance().send(out);
                 }
                 default -> System.out.println("Некорректная команда");

@@ -110,5 +110,6 @@ public abstract class Back implements Settings {
     }
     public abstract void addLog(String text);
     public abstract String getDataPath();
+    public abstract void handler(JsonObject object);
 }
 

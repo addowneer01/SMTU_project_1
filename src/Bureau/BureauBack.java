@@ -1,4 +1,4 @@
-package Factory;
+package Bureau;
 
 import Main.Back;
 import com.google.gson.JsonObject;
@@ -6,24 +6,24 @@ import com.google.gson.JsonObject;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FactoryBack extends Back{
-    private static FactoryBack factoryBack = null;
+public class BureauBack extends Back {
+    private static BureauBack bureauBack = null;
     protected FileWriter logsWriter;
-    private FactoryBack(){
+    private BureauBack(){
         try {
-            logsWriter = new FileWriter("src/Factory/Logs",true);
+            logsWriter = new FileWriter("src/Bureau/Logs",true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static FactoryBack getInstance(){
-        if (factoryBack == null) factoryBack = new FactoryBack();
-        return factoryBack;
+    public static BureauBack getInstance(){
+        if (bureauBack == null) bureauBack = new BureauBack();
+        return bureauBack;
     }
 
     @Override
     public void addLog(String text) {
-        System.out.println("Factory| "+ text);
+        System.out.println("Bureau| "+ text);
         try {
             logsWriter.write(text);
             logsWriter.flush();
@@ -34,7 +34,7 @@ public class FactoryBack extends Back{
 
     @Override
     public String getDataPath() {
-        return "src/Factory/Data";
+        return "src/Bureau/Data";
     }
 
     @Override
