@@ -1,7 +1,7 @@
 package Main;
 
 public interface Config {
-    boolean REFRESH_DATA = true;
+    boolean REFRESH_DATA = false;
     boolean ENCRYPT = false;
     String KEY = "";
     String IP_SERVER = "localhost";

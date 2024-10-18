@@ -27,8 +27,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store!/src/Server/Data
-/src/Server/Data
-/src/Bureau/Data
-/src/Factory/Data
-/src/Bureau/Logs
-/src/Factory/Logs
+src/Server/Data
+src/Bureau/Data
+src/Factory/Data
+src/Bureau/Logs
+src/Factory/Logs
