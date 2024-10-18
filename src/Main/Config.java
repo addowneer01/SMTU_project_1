@@ -10,4 +10,5 @@ public interface Config {
     String pathFlogs = "src/Factory/Logs";
     String pathBdata = "src/Bureau/Data";
     String pathBlogs = "src/Bureau/Logs";
+    String pathSdata = "src/Server/Data";
 }

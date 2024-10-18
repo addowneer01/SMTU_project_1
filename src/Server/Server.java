@@ -14,14 +14,14 @@ public class Server implements Config {
     public static void main(String[] args) throws IOException {
         if (REFRESH_DATA) countIdMsg = 0;
         else {
-            Scanner scan = new Scanner(new File("src/Server/Data"));
+            Scanner scan = new Scanner(new File(pathSdata));
             try {
                 countIdMsg = scan.nextInt();
             }catch (Exception e){
                 countIdMsg = 0;
             }
         }
-        fileWriter = new FileWriter("src/Server/Data");
+        fileWriter = new FileWriter(pathSdata);
         ServerSocket serverSocket = new ServerSocket(Config.PORT_SERVER);
         while (true) {
             try{
@@ -42,7 +42,7 @@ public class Server implements Config {
     }
     public static int getId() throws IOException {
         countIdMsg++;
-        fileWriter = new FileWriter("src/Server/Data");
+        fileWriter = new FileWriter(pathSdata);
         fileWriter.write(String.valueOf(countIdMsg));
         fileWriter.close();
         return countIdMsg;
