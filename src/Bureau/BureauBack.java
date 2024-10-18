@@ -11,7 +11,7 @@ public class BureauBack extends Back {
     protected FileWriter logsWriter;
     private BureauBack(){
         try {
-            logsWriter = new FileWriter("src/Bureau/Logs",true);
+            logsWriter = new FileWriter(pathBlogs,true);
             start();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -40,7 +40,7 @@ public class BureauBack extends Back {
 
     @Override
     public String getDataPath() {
-        return "src/Bureau/Data";
+        return pathBdata;
     }
 
 }

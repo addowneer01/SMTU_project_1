@@ -12,7 +12,7 @@ public class FactoryBack extends Back{
     protected FileWriter logsWriter;
     private FactoryBack(){
         try {
-            logsWriter = new FileWriter("src/Factory/Logs",true);
+            logsWriter = new FileWriter(pathFlogs,true);
             start();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class FactoryBack extends Back{
 
     @Override
     public String getDataPath() {
-        return "src/Factory/Data";
+        return pathFdata;
     }
 
 

@@ -6,5 +6,8 @@ public interface Config {
     String KEY = "";
     String IP_SERVER = "localhost";
     int PORT_SERVER = 2709;
-    int RECONNECT_TRY = 3;
+    String pathFdata = "src/Factory/Data";
+    String pathFlogs = "src/Factory/Logs";
+    String pathBdata = "src/Bureau/Data";
+    String pathBlogs = "src/Bureau/Logs";
 }
