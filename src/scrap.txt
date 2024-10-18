@@ -3,7 +3,9 @@ data{
     projects{
         p1{
             d1{
-                reports[r1{close,idReport,idAnswer}]
+                reports{r1{close,idReport,idAnswer}}
+                status:0/1/2
+                file:path
             },
             d2{}
         },

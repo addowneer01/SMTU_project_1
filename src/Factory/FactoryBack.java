@@ -24,10 +24,11 @@ public class FactoryBack extends Back{
     }
 
     @Override
-    public void addLog(String text) {
-        System.out.println("Factory| "+ text);
+    public void addLog(String text, boolean silence) {
+        if (!silence) System.out.println("Logs| "+ text);
         try {
-            logsWriter.write(text);
+            if (silence) logsWriter.write("    sin: ");
+            logsWriter.write(text+"\n");
             logsWriter.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -35,35 +36,14 @@ public class FactoryBack extends Back{
     }
 
     @Override
+    public void addLog(String text) {
+        addLog(text,false);
+    }
+
+    @Override
     public String getDataPath() {
         return "src/Factory/Data";
     }
 
-    @Override
-    public void handler(JsonObject object) {
-        switch (object.get("type").getAsInt()){
-            case TYPE_ANSWER -> {
-                getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString())
-                        .getAsJsonArray("reports").get(object.get("idReport").getAsInt())
-                        .getAsJsonObject().addProperty("answer",object.get("id").getAsInt());
-            }
-            case TYPE_RELEASE -> {
-                JsonObject project = dataJson.getAsJsonObject("projects").getAsJsonObject(object.get("project").getAsString());
-                JsonObject document = new JsonObject();
-                document.addProperty("file",object.get("p1").getAsString());
-                document.add("reports",new JsonArray());
-                project.add(object.get("idDocument").getAsString(),document);
-            }
-            case TYPE_CORRECTION -> {
-                JsonObject project = dataJson.getAsJsonObject("projects").getAsJsonObject(object.get("project").getAsString());
-                project.getAsJsonObject(object.get("idDocument").getAsString()).addProperty("file",object.get("p1").getAsString());
-            }
-            case TYPE_NEW_PROJECT -> {
-                dataJson.getAsJsonObject("projects").add(object.get("name").getAsString(),new JsonObject());
-                addLog("файл создан");
-            }
-            default -> addLog("handler -> неккоректный тип");
-        }
-    }
 
 }

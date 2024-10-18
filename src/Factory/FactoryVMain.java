@@ -13,12 +13,19 @@ public class FactoryVMain implements TypesMessage {
         String namePersonal = scan.nextLine();
         boolean q = true;
         while (q){
-            String[] command = scan.nextLine().split(" ");
+            String ms = scan.nextLine();
+            FactoryBack.getInstance().addLog(ms,true);
+            String[] command = ms.split(" ");
             switch (command[0]){
                 case "/debug" -> {
                     JsonObject d = new JsonObject();
-                    d.addProperty("type",command[1]);
-                    d.addProperty("name",command[2]);
+                    try{
+                        d.addProperty("type",command[1]);
+                        d.addProperty("project",command[2]);
+                        d.addProperty("idDocument",command[3]);
+                        d.addProperty("p1",command[4]);
+                        d.addProperty("p2",command[5]);
+                    }catch (Exception e){}
                     FactoryBack.getInstance().handler(d);
                 }
                 case "/help" -> {
@@ -26,8 +33,8 @@ public class FactoryVMain implements TypesMessage {
                     System.out.println("/auth {name}");
                     System.out.println("/exit");
                     System.out.println("/ping");
-                    System.out.println("/sendMs {namePersonal} {type} {project} {idDocument} {parametr1} {parametr2} " );
-                    System.out.println("    confirm -> {answer} {comment}");
+                    System.out.println("/sendMs {type} {project} {idDocument} {parametr1} {parametr2} " );
+                    System.out.println("    confirm -> {answer(true/false)} {comment}");
                     System.out.println("    report  -> {id} {comment}");
                     System.out.println("    start   -> {comment}");
                     System.out.println("/getMsHistory" );
@@ -50,35 +57,42 @@ public class FactoryVMain implements TypesMessage {
                     boolean exception = false;
                     JsonObject out = new JsonObject();
                     out.addProperty("namePersonal",namePersonal);
-                    switch (command[2]){
-                        case "confirm" -> {
-                            out.addProperty("type",TYPE_CONFIRM);
-                            out.addProperty("p1",command[5]);
-                            out.addProperty("p2",command[6]);
+                    try {
+                        switch (command[1]){
+                            case "confirm" -> {
+                                out.addProperty("type",TYPE_CONFIRM);
+                                out.addProperty("p1",command[4]);
+                                out.addProperty("p2",command[5]);
+                            }
+                            case "report" -> {
+                                out.addProperty("type",TYPE_REPORT);
+                                out.addProperty("p1",command[4]);
+                                out.addProperty("p2",command[5]);
+                            }
+                            case "start" -> {
+                                out.addProperty("type",TYPE_START_WORK);
+                                out.addProperty("p1",command[4]);
+                            }
+                            default -> {
+                                System.out.println("Неккоректный тип (confirm, report, start)");
+                                exception = true;
+                            }
                         }
-                        case "report" -> {
-                            out.addProperty("type",TYPE_REPORT);
-                            out.addProperty("p1",command[5]);
-                            out.addProperty("p2",command[6]);
-                        }
-                        case "start" -> {
-                            out.addProperty("type",TYPE_START_WORK);
-                            out.addProperty("p1",command[5]);
-                        }
-                        default -> {
-                            System.out.println("Неккоректный тип (confirm, report, start)");
-                            exception = true;
-                        }
+                    }catch (Exception e){
+                        System.out.println("Неккоректные параметры");
+                        exception = true;
                     }
-                    if (FactoryBack.getInstance().check(command[3],command[4])) {
+                    if (FactoryBack.getInstance().check(command[2],command[3])) {
                         System.out.println("Проекта или документа не существует");
                         exception = true;
                     }
                     if (exception) break;
                     out.addProperty("id",FactoryBack.getInstance().getIdMsg());
-                    out.addProperty("project",command[3]);
-                    out.addProperty("document",command[4]);
-                    FactoryBack.getInstance().send(out);
+                    out.addProperty("project",command[2]);
+                    out.addProperty("document",command[3]);
+                    //FactoryBack.getInstance().send(out);
+                    if (FactoryBack.getInstance().handler(out)) System.out.println("Успешно отправленно");
+                    else System.out.println("Ошибка обработки БД");
                 }
                 default -> System.out.println("Некорректная команда");
             }

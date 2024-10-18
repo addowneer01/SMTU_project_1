@@ -23,10 +23,10 @@ public class BureauBack extends Back {
     }
 
     @Override
-    public void addLog(String text) {
-        System.out.println("Bureau| "+ text);
+    public void addLog(String text, boolean silence) {
+        if (!silence) System.out.println("Logs| "+ text);
         try {
-            logsWriter.write(text);
+            logsWriter.write(text+"\n");
             logsWriter.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -34,12 +34,13 @@ public class BureauBack extends Back {
     }
 
     @Override
+    public void addLog(String text) {
+        addLog(text,false);
+    }
+
+    @Override
     public String getDataPath() {
         return "src/Bureau/Data";
     }
 
-    @Override
-    public void handler(JsonObject object) {
-
-    }
 }

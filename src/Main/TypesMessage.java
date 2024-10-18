@@ -8,4 +8,9 @@ public interface TypesMessage {
     int TYPE_RELEASE =4;
     int TYPE_CORRECTION =5;
     int TYPE_NEW_PROJECT =6;
+    int STATUS_WAITING = 0;
+    int STATUS_APPROVED = 1;
+    int STATUS_AT_WORK = 2;
+    int REPORT_OPEN = 0;
+    int REPORT_CLOSE = 1;
 }

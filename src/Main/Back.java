@@ -21,10 +21,10 @@ public abstract class Back implements Config, TypesMessage {
     static int idMsg;
     static FileWriter logsWriter;
     protected void start(){
-        addLog("Новый запуск");
+        addLog("\n"+"Новый запуск");
         if (REFRESH_DATA){
             dataJson = new JsonObject();
-            dataJson.add("msg",new JsonArray());
+            dataJson.add("msg",new JsonObject());
             dataJson.add("projects",new JsonObject());
         }
         else {
@@ -37,14 +37,18 @@ public abstract class Back implements Config, TypesMessage {
             }
         }
     }
-    public void stop(){
+    public void flushData(){
         try {
             FileWriter fileWriter = new FileWriter(getDataPath());
             fileWriter.write(gson.toJson(dataJson));
+            fileWriter.close();
         } catch (IOException e) {
             addLog("Ошибка записи");
             throw new RuntimeException(e);
         }
+    }
+    public void stop(){
+        flushData();
     }
 
     public boolean run(Runnable runnable){
@@ -94,6 +98,7 @@ public abstract class Back implements Config, TypesMessage {
         if (!dataJson.getAsJsonObject(nameProject).has(idDocument)) return false;
         return true;
     }
+
     public int getIdMsg(){
         run(new Runnable() {
             @Override
@@ -115,8 +120,59 @@ public abstract class Back implements Config, TypesMessage {
     public JsonObject getDocument(String nameProject, String id){
         return getProject(nameProject).getAsJsonObject(id);
     }
+    public abstract void addLog(String text, boolean silence);
     public abstract void addLog(String text);
     public abstract String getDataPath();
-    public abstract void handler(JsonObject object);
+    public boolean handler(JsonObject object) {
+        try {
+            switch (object.get("type").getAsInt()){
+                case TYPE_ANSWER -> {
+                    JsonObject report = getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString())
+                            .get("reports").getAsJsonObject().get(object.get("p1").getAsString()).getAsJsonObject();
+                    report.addProperty("status",REPORT_CLOSE);
+                    report.addProperty("ms2",object.get("p1").getAsString());
+                }
+                case TYPE_RELEASE -> {
+                    JsonObject project = dataJson.getAsJsonObject("projects").getAsJsonObject(object.get("project").getAsString());
+                    JsonObject document = new JsonObject();
+                    document.addProperty("file",object.get("p1").getAsString());
+                    document.addProperty("status",STATUS_WAITING);
+                    document.add("reports",new JsonObject());
+                    project.add(object.get("idDocument").getAsString(),document);
+                }
+                case TYPE_CORRECTION -> {
+                    JsonObject document = getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString());
+                    document.addProperty("file",object.get("p1").getAsString());
+                    document.addProperty("status",STATUS_WAITING);
+                }
+                case TYPE_NEW_PROJECT -> {
+                    dataJson.getAsJsonObject("projects").add(object.get("project").getAsString(),new JsonObject());
+                }
+                //////////////////
+                case TYPE_CONFIRM -> {
+                    if (object.get("p1").getAsBoolean()) getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString())
+                            .addProperty("status",STATUS_APPROVED);
+                }
+                case TYPE_START_WORK -> {
+                    getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString())
+                            .addProperty("status",STATUS_AT_WORK);
+                }
+                case TYPE_REPORT -> {
+                    JsonObject report = new JsonObject();
+                    report.addProperty("ms1",object.get("p2").getAsString());
+                    report.addProperty("status",REPORT_OPEN);
+                    getDocument(object.get("project").getAsString(),object.get("idDocument").getAsString())
+                            .get("reports").getAsJsonObject().add(object.get("p1").getAsString(),report);
+                }
+                default -> addLog("handler -> неккоректный тип");
+            }
+            flushData();
+            //send(object);
+            return true;
+        }catch (Exception e){
+            addLog(e.getMessage());
+            return false;
+        }
+    }
 }
 
