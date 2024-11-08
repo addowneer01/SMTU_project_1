@@ -40,11 +40,9 @@ public class FactoryVMain implements TypesMessage {
                     System.out.println("    report  -> {id} {comment}");
                     System.out.println("    start   -> {comment}");
                     System.out.println("/getMsHistory {quantity (0-all) }" );
-                    System.out.println("/getMs {id}" );
-                    System.out.println("/getProject" );
+                    System.out.println("/getProjects" );
+                    System.out.println("/getProject {name}" );
                     System.out.println("/getDocument {project} {id}" );
-                    System.out.println("/getStatusDocument {project} {id}");
-                    System.out.println("/startWork {namePersonal} {project} {id}");
                 }
                 case "/auth" -> namePersonal=scan.nextLine();
                 case "/exit" -> {
@@ -103,6 +101,25 @@ public class FactoryVMain implements TypesMessage {
                     for (int i = data.size()-k;i<data.size();i++){
                         System.out.println(data.get(i).getAsString());
                     }
+                }
+                case "/getProjects"->{
+                    JsonArray data = FactoryBack.getInstance().dataJson.get("projects").getAsJsonObject().get("names").getAsJsonArray();
+                    System.out.println("Проекты: ");
+                    for (int i = 0;i<data.size();i++) System.out.println("  "+data.get(i).getAsString());
+                }
+                case "/getProject" ->{
+                    JsonArray data = FactoryBack.getInstance().getProject(command[1]).get("names").getAsJsonArray();
+                    System.out.println("Документы: ");
+                    for (int i = 0;i<data.size();i++) System.out.println("  "+data.get(i).getAsString());
+                }
+                case "/getDocument" ->{
+                    JsonObject data = FactoryBack.getInstance().getDocument(command[1],command[2]);
+                    String st;
+                    if (data.get("status").getAsInt()==STATUS_AT_WORK) st = "в работе";
+                    else if (data.get("status").getAsInt()==STATUS_APPROVED) st = "одобрен";
+                    else st = "ожидает одобрения";
+                    System.out.println("    Статус: "+st);
+                    System.out.println("    Ссылка на файл: "+data.get("file").getAsString());
                 }
                 default -> System.out.println("Некорректная команда");
             }

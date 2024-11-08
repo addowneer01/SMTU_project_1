@@ -31,7 +31,9 @@ public abstract class Back implements Config, TypesMessage {
         if (REFRESH_DATA){
             dataJson = new JsonObject();
             dataJson.add("msg",new JsonArray());
-            dataJson.add("projects",new JsonObject());
+            JsonObject p = new JsonObject();
+            p.add("names",new JsonArray());
+            dataJson.add("projects",p);
         }
         else {
             try {
@@ -42,7 +44,7 @@ public abstract class Back implements Config, TypesMessage {
                 throw new RuntimeException(e);
             }
         }
-        executorService.scheduleAtFixedRate(socketHandler,0,500, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(socketHandler,0,PERIOD_UPDATE, TimeUnit.MILLISECONDS);
     }
     public void flushData(){
         try {
@@ -149,9 +151,10 @@ public abstract class Back implements Config, TypesMessage {
                     document.addProperty("file",object.get("p1").getAsString());
                     document.addProperty("status",STATUS_WAITING);
                     document.add("reports",new JsonObject());
+                    project.get("names").getAsJsonArray().add(object.get("idDocument").getAsString());
                     project.add(object.get("idDocument").getAsString(),document);
                     if (send) addMsg("Документ '"+object.get("idDocument").getAsString()+
-                            "' проекта '"+object.get("project").getAsString()+"' закончен и ожидает подтверждения",
+                            "' проекта '"+object.get("project").getAsString()+"' закончен и ожидает одобрения",
                             object.get("p2").getAsString());
                 }
                 case TYPE_CORRECTION -> {
@@ -159,11 +162,14 @@ public abstract class Back implements Config, TypesMessage {
                     document.addProperty("file",object.get("p1").getAsString());
                     document.addProperty("status",STATUS_WAITING);
                     if (send) addMsg("Документ '"+object.get("idDocument").getAsString()+
-                                    "' проекта '"+object.get("project").getAsString()+"' не принят и ожидает корректировок",
+                                    "' проекта '"+object.get("project").getAsString()+"' обновлен и ожидает одобрения",
                             object.get("p2").getAsString());
                 }
                 case TYPE_NEW_PROJECT -> {
-                    dataJson.getAsJsonObject("projects").add(object.get("project").getAsString(),new JsonObject());
+                    JsonObject p = new JsonObject();
+                    p.add("names",new JsonArray());
+                    dataJson.getAsJsonObject("projects").add(object.get("project").getAsString(),p);
+                    dataJson.getAsJsonObject("projects").get("names").getAsJsonArray().add(object.get("project").getAsString());
                     if (send) addMsg("Создан новый проект '"+object.get("project").getAsString()+"'",object.get("p1").getAsString());
                 }
                 //////////////////
@@ -193,6 +199,7 @@ public abstract class Back implements Config, TypesMessage {
                                     "' проекта '"+object.get("project").getAsString()+"' ожидает ответа на репорт №"+
                                     object.get("p1").getAsString(), object.get("p2").getAsString());
                 }
+                ////
                 case TYPE_MESSAGE -> {
                     dataJson.get("msg").getAsJsonArray().add(object.get("ms").getAsString());
                     if (!send) System.out.println(object.get("ms").getAsString());
@@ -220,6 +227,7 @@ public abstract class Back implements Config, TypesMessage {
         String ms = id+" | "+from+action+" | "+comment;
         JsonObject object = new JsonObject();
         object.addProperty("type",TYPE_MESSAGE);
+        object.addProperty("id",id);
         object.addProperty("ms",ms);
         handler(object,true);
     }
@@ -236,13 +244,16 @@ public abstract class Back implements Config, TypesMessage {
             Back.this.run(new Runnable() {
                 @Override
                 public void run() {
+                    JsonArray json = new JsonArray();
                     JsonObject f = new JsonObject();
                     f.addProperty("from",getFrom());
                     f.addProperty("t","P");
-                    send(f);
+                    json.add(gson.toJson(f));
                     while (!queue.isEmpty()){
-                        send(queue.poll());
+                        json.add(queue.poll());
                     }
+                    send(gson.toJson(json));
+                    //System.out.println(gson.toJson(json));
                     try {
                         String ms = reader.readLine();
                         //System.out.println(ms);

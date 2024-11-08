@@ -31,6 +31,7 @@ public class Server implements Config, TypesMessage {
                 countIdMsg = scan.nextInt();
             }catch (Exception e){
                 countIdMsg = 0;
+                e.printStackTrace();
             }
         }
         fileWriter = new FileWriter(pathSdata);
@@ -44,10 +45,12 @@ public class Server implements Config, TypesMessage {
                 OutputStream output = socket.getOutputStream();
                 PrintWriter writer = new PrintWriter(output, true);
                 int from = -1;
-                while (socket.isConnected()){
-                    String message = reader.readLine();
-                    //System.out.println("Пришло: "+message);
-                    //if (message.equals("id")) writer.println(getId());
+                String jsonS = reader.readLine();
+                //System.out.println(jsonS);
+                JsonArray json = gson.fromJson(jsonS, JsonArray.class);
+                for (int i = 0; i<json.size();i++){
+                    String message = json.get(i).getAsString();
+                    //System.out.println("обработка: "+ message);
                     JsonObject in = gson.fromJson(message, JsonObject.class);
                     from = in.get("from").getAsInt();
                     switch (in.get("t").getAsString()){
@@ -61,7 +64,6 @@ public class Server implements Config, TypesMessage {
                         }
                         //default -> writer.println(0);
                     }
-                    if (!reader.ready())break;
                 }
                 if (from != -1) push(socket,reader,writer,from);
                 socket.close();

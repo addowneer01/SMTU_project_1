@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="faeec91b-460b-4290-bc1c-39d571e4fa13" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bureau/BureauBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bureau/BureauBack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Bureau/BureauVMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bureau/BureauVMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Factory/FactoryBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FactoryBack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Factory/FactoryVMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FactoryVMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Back.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Back.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/TypesMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/TypesMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scrap.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/scrap.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +57,7 @@
     &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/olmp/IdeaProjects/SMTU_project1/src/scrap&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Factory">
+  <component name="RunManager" selected="Application.Bureau">
     <configuration name="Bureau" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Bureau.BureauVMain" />
       <module name="P1 Factory and bureau" />
@@ -251,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729245447377</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="update">
+      <option name="closed" value="true" />
+      <created>1731051912964</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1731051912964</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -274,18 +277,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main/Back.java</url>
-          <line>101</line>
+          <line>103</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Server/Server.java</url>
-          <line>35</line>
+          <line>36</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Factory/FactoryVMain.java</url>
-          <line>59</line>
+          <line>57</line>
           <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Bureau/BureauVMain.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
