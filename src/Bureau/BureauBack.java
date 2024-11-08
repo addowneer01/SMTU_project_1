@@ -43,4 +43,9 @@ public class BureauBack extends Back {
         return pathBdata;
     }
 
+    @Override
+    protected int getFrom() {
+        return BUREAU;
+    }
+
 }

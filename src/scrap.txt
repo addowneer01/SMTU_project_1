@@ -1,3 +1,146 @@
+package Server;
+
+import Main.Config;
+import Main.TypesMessage;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Server implements Config, TypesMessage {
+    static int countIdMsg;
+    static FileWriter fileWriter;
+    static Gson gson = new Gson();
+    private static final Queue<String> queueToFactory = new LinkedList<>();
+    private static final Queue<String> queueToBureau = new LinkedList<>();
+
+    public static void main(String[] args) throws IOException {
+        if (REFRESH_DATA) countIdMsg = 0;
+        else {
+            Scanner scan = new Scanner(new File(pathSdata));
+            try {
+                countIdMsg = scan.nextInt();
+            }catch (Exception e){
+                countIdMsg = 0;
+            }
+        }
+        fileWriter = new FileWriter(pathSdata);
+        ServerSocket serverSocket = new ServerSocket(Config.PORT_SERVER);
+        while (true) {
+            try{
+                Socket socket = serverSocket.accept();
+                System.out.println("open");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                OutputStream output = socket.getOutputStream();
+                PrintWriter writer = new PrintWriter(output, true);
+                int from = -1;
+                while (reader.ready()&&socket.isConnected()){
+                    String message = reader.readLine();
+                    System.out.println("Пришло: "+message);
+                    //if (message.equals("id")) writer.println(getId());
+                    JsonObject in = gson.fromJson(message, JsonObject.class);
+                    if (from == -1) from = in.get("from").getAsInt();
+                    if (from == FACTORY) {
+                        addQueueBureau(message);
+                        if (!queueToBureau.isEmpty()) writer.println(true);
+                        else writer.println(false);
+                    }
+                    else {
+                        addQueueFactory(message);
+                        if (!queueToFactory.isEmpty()) writer.println(true);
+                        else writer.println(false);
+                    }
+                }
+                if (from != -1) push(socket,reader,writer,from);
+                socket.close();
+                System.out.println("close");
+            }
+//            catch (NullPointerException e){}
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public static int getId() throws IOException {
+        countIdMsg++;
+        fileWriter = new FileWriter(pathSdata);
+        fileWriter.write(String.valueOf(countIdMsg));
+        fileWriter.close();
+        return countIdMsg;
+    }
+    private static void push(Socket socket, BufferedReader reader, PrintWriter writer, int from) throws IOException {
+        Queue<String> queue;
+        if (from == FACTORY) queue = queueToBureau;
+        else queue = queueToFactory;
+        JsonObject object = new JsonObject();
+        object.addProperty("push",0);
+        while (!queue.isEmpty()){
+            object.addProperty("ms",queue.peek());
+            writer.println(gson.toJson(object));
+            System.out.println("Отправленно: "+gson.toJson(object));
+            JsonObject answer = gson.fromJson(reader.readLine(), JsonObject.class);
+            if (!answer.get("answer").getAsBoolean()) return;
+            queue.remove();
+        }
+        socket.close();
+    }
+    private static void addQueueFactory(String message){
+        queueToFactory.add(message);
+    }
+    private static void addQueueBureau(String message){
+        queueToBureau.add(message);
+    }
+}
+
+
+@Override
+        public void run() {
+            Back.this.run(new Runnable() {
+                @Override
+                public void run() {
+                    JsonObject f = new JsonObject();
+                    f.addProperty("from",BUREAU);
+                    send(f);
+                    while (!queue.isEmpty()){
+                        send(queue.poll());
+                    }
+                    JsonObject out = new JsonObject();
+                    try {
+                        System.out.println(reader.readLine());
+                        if (reader.readLine() == "1")
+                            while (socket.isConnected()) {
+                                try {
+                                    String st = reader.readLine();
+                                    JsonObject p = gson.fromJson(st, JsonObject.class);
+                                    String ms = p.get("ms").getAsString();
+                                    handler(gson.fromJson(ms,JsonObject.class),false);
+                                    System.out.println("Пришло: "+ms);
+                                    out.addProperty("answer",true);
+                                }
+                                catch (Exception e){
+                                    addLog("1"+e.getMessage());
+                                    out.addProperty("answer",false);
+
+                                }
+                                finally {
+                                    send(out);
+                                }
+                            }
+                    }
+                    catch (Exception e){
+                        addLog("2"+e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+
 data{
     msg{},
     projects{

@@ -1,22 +1,24 @@
 package Factory;
 
 import Main.TypesMessage;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Scanner;
 
 public class FactoryVMain implements TypesMessage {
     public static void main(String[] args) {
-        FactoryBack.getInstance();
         Scanner scan = new Scanner(System.in);
         System.out.println("Введите имя пользователя");
         String namePersonal = scan.nextLine();
+        FactoryBack.getInstance();
         boolean q = true;
         while (q){
             String ms = scan.nextLine();
             FactoryBack.getInstance().addLog(ms,true);
             String[] command = ms.split(" ");
             switch (command[0]){
+                case "/id" -> System.out.println(FactoryBack.getInstance().getIdMsg());
                 case "/debug" -> {
                     JsonObject d = new JsonObject();
                     try{
@@ -26,18 +28,18 @@ public class FactoryVMain implements TypesMessage {
                         d.addProperty("p1",command[4]);
                         d.addProperty("p2",command[5]);
                     }catch (Exception e){}
-                    FactoryBack.getInstance().handler(d);
+                    FactoryBack.getInstance().handler(d,true);
                 }
                 case "/help" -> {
                     System.out.println("/help");
                     System.out.println("/auth {name}");
                     System.out.println("/exit");
                     System.out.println("/ping");
-                    System.out.println("/sendMs {type} {project} {idDocument} {parametr1} {parametr2} " );
+                    System.out.println("/send {type} {project} {idDocument} {parametr1} {parametr2} " );
                     System.out.println("    confirm -> {answer(true/false)} {comment}");
                     System.out.println("    report  -> {id} {comment}");
                     System.out.println("    start   -> {comment}");
-                    System.out.println("/getMsHistory" );
+                    System.out.println("/getMsHistory {quantity (0-all) }" );
                     System.out.println("/getMs {id}" );
                     System.out.println("/getProject" );
                     System.out.println("/getDocument {project} {id}" );
@@ -53,7 +55,7 @@ public class FactoryVMain implements TypesMessage {
                     if (FactoryBack.getInstance().connectPing()) System.out.println("Сервер работает");
                     else System.out.println("Сервер недоступен");
                 }
-                case "/sendMS" -> {
+                case "/send" -> {
                     boolean exception = false;
                     JsonObject out = new JsonObject();
                     out.addProperty("namePersonal",namePersonal);
@@ -87,12 +89,20 @@ public class FactoryVMain implements TypesMessage {
                         exception = true;
                     }
                     if (exception) break;
-                    out.addProperty("id",FactoryBack.getInstance().getIdMsg());
                     out.addProperty("project",command[2]);
-                    out.addProperty("document",command[3]);
-                    //FactoryBack.getInstance().send(out);
-                    if (FactoryBack.getInstance().handler(out)) System.out.println("Успешно отправленно");
+                    out.addProperty("idDocument",command[3]);
+                    if (FactoryBack.getInstance().handler(out,true)) System.out.println("Успешно отправлено");
                     else System.out.println("Ошибка обработки БД");
+                }
+                case "/getMsHistory" -> {
+                    int k;
+                    if (command.length == 1) k = 5;
+                    else k = Integer.parseInt(command[1]);
+                    JsonArray data = FactoryBack.getInstance().getDataMs();
+                    if (data.size()<k || k==0) k = data.size();
+                    for (int i = data.size()-k;i<data.size();i++){
+                        System.out.println(data.get(i).getAsString());
+                    }
                 }
                 default -> System.out.println("Некорректная команда");
             }

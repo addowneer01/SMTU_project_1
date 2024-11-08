@@ -45,5 +45,10 @@ public class FactoryBack extends Back{
         return pathFdata;
     }
 
+    @Override
+    protected int getFrom() {
+        return FACTORY;
+    }
+
 
 }

@@ -1,6 +1,9 @@
 package Main;
 
 public interface TypesMessage {
+    int FACTORY = 0;
+    int BUREAU = 1;
+    int TYPE_MESSAGE=-1;
     int TYPE_CONFIRM=0;
     int TYPE_REPORT=1;
     int TYPE_START_WORK=2;
